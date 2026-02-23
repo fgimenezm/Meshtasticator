@@ -727,7 +727,13 @@ class InteractiveSim:
             n.iface.localNode.exitSimulator()
             n.iface.close()
         if self.docker:
-            self.container.stop()
+            import docker
+            try:
+                self.container.stop()
+            except docker.errors.NotFound:
+                # Docker container already stopped
+                pass
+
         if self.forwardToClient:
             self._wantExit = True
             self.forwardSocket.close()
