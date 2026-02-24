@@ -723,7 +723,7 @@ class InteractiveSim:
     def close_nodes(self):
         print("\nClosing all nodes...")
         pub.unsubAll()
-        for n in self.nodes:
+        for n in reversed(self.nodes): # we reverse to close higher node IDs first as closing node 0 kills the docker container
             n.iface.localNode.exitSimulator()
             n.iface.close()
         if self.docker:
